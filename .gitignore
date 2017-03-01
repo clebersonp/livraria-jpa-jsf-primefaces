@@ -6,7 +6,8 @@
 .metadata
 bin/
 tmp/
-build/
+./build/
+*.class
 *.tmp
 *.bak
 *.swp
