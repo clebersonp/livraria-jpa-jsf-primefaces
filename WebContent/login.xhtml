@@ -8,47 +8,28 @@
 	
 	<ui:composition template="_template.xhtml">
 		<ui:define name="titulo">
-			Login
+			<p:outputPanel>Login</p:outputPanel>
 		</ui:define>
 		<ui:define name="conteudo">
 			<p:messages id="messages" globalOnly="true"/>
 			<h:form>
 				<p:fieldset legend="Login">
-					<p:panelGrid >
-						<p:row>
-							<p:column>
-								<p:outputLabel value="Email:" for="email" />
-							</p:column>
-							<p:column>
-								<p:inputText id="email" value="#{loginBean.usuario.email}" required="true" requiredMessage="Email é obrigatório!" />
-							</p:column>
-							<p:column>
-								<p:message for="email" />
-							</p:column>
-						</p:row>
-		
-						<p:row>
-							<p:column>
-								<p:outputLabel value="Senha:" for="senha" />
-							</p:column>
-							<p:column>
-								<p:password id="senha" feedback="true" promptLabel="Digite a sua senha" weakLabel="Fraca" goodLabel="Bom" strongLabel="Forte"
-									 value="#{loginBean.usuario.senha}" required="true" requiredMessage="Senha é obrigatório!" />
-							</p:column>
-							<p:column>
-								<p:message for="senha" />
-							</p:column>
-						</p:row>
-						
-						<p:row>
-							<p:column>
-								<p:outputLabel />	
-							</p:column>
-							<p:column>
-								<p:commandButton value="Efetua Login" action="#{loginBean.efetuaLogin}" process="@form" update="@form" />
-							</p:column>
-						</p:row>						
-					</p:panelGrid>
+					<h:panelGrid columns="3" >
+
+						<p:outputLabel value="Email:" for="email" />
+						<p:inputText id="email" value="#{loginBean.usuario.email}" required="true" requiredMessage="Email é obrigatório!">
+							<f:passThroughAttribute name="type" value="email" />
+						</p:inputText>
+						<p:message for="email" />
+
+						<p:outputLabel value="Senha:" for="senha" />
+						<p:password id="senha" feedback="true" promptLabel="Digite a sua senha" weakLabel="Fraca" goodLabel="Bom" strongLabel="Forte"
+								 value="#{loginBean.usuario.senha}" required="true" requiredMessage="Senha é obrigatório!" />
+						<p:message for="senha" />
+
+						<p:outputLabel />	
+						<p:commandButton value="Efetua Login" action="#{loginBean.efetuaLogin}" process="@form" update="@form" />
+					</h:panelGrid>
 				</p:fieldset>
 			</h:form>
 		</ui:define>

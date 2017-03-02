@@ -55,6 +55,10 @@ public class AutorBean implements Serializable {
 		new DAO<Autor>(Autor.class).remove(autor);
 	}
 	
+	public void limparCamposAutor() {
+		this.autor = new Autor();
+	}
+	
 	public List<Autor> getAutores() {
 		return new DAO<Autor>(Autor.class).listaTodos();
 	}

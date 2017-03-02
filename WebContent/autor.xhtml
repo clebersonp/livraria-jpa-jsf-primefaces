@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <ui:composition template="_template.xhtml">
@@ -13,62 +14,58 @@
 	</f:metadata>
 
 	<ui:define name="titulo">
-		Novo Autor
+		<p:outputPanel>Novo Autor</p:outputPanel>
 	</ui:define>
 	<ui:define name="conteudo">
-		<h:form>
-			<fieldset>
-				<legend>Dados do Autor</legend>
+		<h:form id="formAutor">
+			<p:fieldset legend="Dados do Autor">
 				<h:panelGrid columns="3">
 					
-					<h:outputLabel value="Nome:" for="inputNome" />
-					<h:inputText id="inputNome" value="#{autorBean.autor.nome}"
-						validatorMessage="O campo nome dever ter pelo menos 5 caracteres!">
+					<p:outputLabel value="Nome:" for="inputNome" />
+					<p:inputText id="inputNome" value="#{autorBean.autor.nome}"
+						validatorMessage="O campo nome dever ter pelo menos 4 caracteres!">
 						<f:validateLength minimum="4" />
-					</h:inputText>
-					<h:message for="inputNome" />
+					</p:inputText>
+					<p:message for="inputNome" />
 					
-					<h:outputLabel value="Email:" for="email" />
-					<h:inputText value="#{autorBean.autor.email}" id="email" >
-						<f:passThroughAttribute name="type" value="email" />
-					</h:inputText>
-					<h:message for="inputNome" />
+					<p:outputLabel value="Email:" for="email" />
+					<p:inputText value="#{autorBean.autor.email}" id="email" validatorMessage="Email inválido!">
+						<f:attribute name="type" value="email" />
+						<f:attribute name="placeholder" value="Email do autor" />
+						<f:validateRegex pattern=".+@.+" for="email" />
+						<f:ajax event="keydown"  render="emailMessage" />
+					</p:inputText>
+					<p:message for="email" id="emailMessage" />
 					
-					<h:outputLabel />
-					<h:commandButton value="Gravar" action="#{autorBean.gravar}" />
-					<h:outputLabel />
-					<h:commandLink value="cadastrar livros" action="livro?faces-redirect=true" immediate="true" />
+					<p:outputLabel />
+					<h:panelGroup>
+						<p:commandButton value="Gravar" action="#{autorBean.gravar}" style="margin-right:10px" process="@form" update="@form :formListaAutores"/>
+						<p:commandButton value="Limpar" action="#{autorBean.limparCamposAutor}" process="@this" update="@form" />
+					</h:panelGroup>
+					<p:outputLabel />
+
+					<p:commandLink value="cadastrar livros" action="livro?faces-redirect=true" immediate="true" />
 					
 				</h:panelGrid>
-			</fieldset>
+			</p:fieldset>
 		</h:form>
 		
-		<fieldset>
-			<legend>Autores cadastrados</legend>
-			<h:form>
-				<h:dataTable value="#{autorBean.autores}" var="autor" >
-					<h:column>
-						<f:facet name="header">Nome</f:facet>
-						<h:outputText value="#{autor.nome}" />
-					</h:column>
-					<h:column>
-						<f:facet name="header">Email</f:facet>
-						<h:outputText value="#{autor.email}" />
-					</h:column>
-					<h:column>
-						<f:facet name="header">Alterar</f:facet>
-						<h:commandLink value="alterar">
-							<f:setPropertyActionListener value="#{autor}" target="#{autorBean.autor}"></f:setPropertyActionListener>
-						</h:commandLink>
-					</h:column>
-					<h:column>
-						<f:facet name="header">Remover</f:facet>
-						<h:commandLink value="remover" action="#{autorBean.remover(autor)}" />
-					</h:column>
-				</h:dataTable>
-			</h:form>
-		</fieldset>
+		<h:form id="formListaAutores">
 		
+			<p:dataList value="#{autorBean.autores}" var="autor" type="definition" itemType="none" paginator="true" rows="5" styleClass="paginated">
+	        	<f:facet name="header">
+	            	Autores Cadastrados
+	        	</f:facet>
+	        	<p:commandButton value="Editar" icon="fa fa-fw fa-edit" style="margin-right:5px" process="@this" update=":formAutor">
+					<f:setPropertyActionListener value="#{autor}" target="#{autorBean.autor}" />
+				</p:commandButton>
+				<p:commandButton value="Remover" action="#{autorBean.remover(autor)}" icon="fa fa-fw fa-remove" style="margin-right:20px" 
+					process="@this" update="@form" />
+	        	
+	        	<p:outputLabel value="#{autor.nome},  #{autor.email}" style="display:inline-block"/>
+	    	</p:dataList>
+		
+		</h:form>
 	</ui:define>
 	<ui:define name="rodape">Cadastro de Autores </ui:define> 
 </ui:composition>

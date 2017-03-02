@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 	
 	<h:head />
@@ -11,13 +12,13 @@
 	
 		<div id="cabecalho">
 			<h:graphicImage library="img" name="logo.png" />
-			
+			<br/>
+			<p:outputLabel value="Seja bem - vindo - #{sessionScope['usuarioLogado'].email}" rendered="#{usuarioLogado != null}"/>
 			<h:form rendered="#{usuarioLogado != null}">
-				<h:commandLink value="Logout" action="#{loginBean.deslogar}" />
+				<p:commandLink value="Logout" action="#{loginBean.deslogar}" process="@this" update="@all" />
 			</h:form>
-			
+
 			<h1><ui:insert name="titulo" /></h1>
-			<h:outputText value="Seja bem - vindo - #{sessionScope['usuarioLogado'].email}" rendered="#{usuarioLogado != null}"/>
 		</div>
 		
 		<div id="conteudo">
