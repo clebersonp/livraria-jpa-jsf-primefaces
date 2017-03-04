@@ -20,6 +20,7 @@ public class Livro {
 	private Integer id;
 
 	private String titulo;
+	private String genero;
 	private String isbn;
 	private double preco;
 	@Temporal(TemporalType.TIMESTAMP)
@@ -57,6 +58,14 @@ public class Livro {
 
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
+	}
+
+	public String getGenero() {
+		return genero;
+	}
+
+	public void setGenero(String genero) {
+		this.genero = genero;
 	}
 
 	public String getIsbn() {

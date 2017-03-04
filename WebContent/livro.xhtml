@@ -30,6 +30,12 @@
 							<f:validateLength maximum="40" />
 							<f:ajax event="blur" render="messages" />
 						</p:inputText>
+						
+						<p:outputLabel value="Gênero: " for="genero" />
+						<p:selectOneMenu value="#{livroBean.livro.genero}" id="genero">
+							<f:selectItem itemLabel="Selecione...."  itemValue="#{null}"/>
+							<f:selectItems value="#{livroBean.generos}"/>
+						</p:selectOneMenu>
 		
 						<p:outputLabel value="ISBN:" for="isbn" />
 						<p:inputMask id="isbn" value="#{livroBean.livro.isbn}" validator="#{livroBean.comecaComDigitoUm}" mask="999-99-999-9999-9" >
@@ -71,39 +77,41 @@
 				<p:commandButton value="Gravar" action="#{livroBean.gravar}" process="@form" update="@form :formTabelaLivros:livrosCadastrados" />
 			</h:form>
 			
-			<fieldset>
-				<legend>Livros cadastrados</legend>
-				<h:form id="formTabelaLivros">
-					<h:dataTable value="#{livroBean.livros}" var="livro" border="0" cellpadding="10" cellspacing="5" id="livrosCadastrados">
-						<h:column>
-							<f:facet name="header">Título</f:facet>
-							<h:outputText value="#{livro.titulo}" />
-						</h:column>
-						<h:column>
-							<f:facet name="header">ISBN</f:facet>
-							<h:outputText value="#{livro.isbn}" />
-						</h:column>
-						<h:column>
-							<f:facet name="header">Preço</f:facet>
-							<h:outputText value="#{livro.preco}" />
-						</h:column>
-						<h:column>
-							<f:facet name="header">Data Lançamento</f:facet>
-							<h:outputText value="#{livro.dataLancamento.time}">
-								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
-							</h:outputText>
-						</h:column>
-						<h:column>
-							<f:facet name="header">Remover</f:facet>
-							<h:commandLink value="remover" action="#{livroBean.remover(livro)}" />
-						</h:column>
-						<h:column>
-							<f:facet name="header">Alterar</f:facet>
-							<h:commandLink value="altera" action="#{livroBean.carregarLivroParaAlteracao(livro)}" />
-						</h:column>
-					</h:dataTable>
-				</h:form>
-			</fieldset>
+			<h:form id="formTabelaLivros">
+				<p:dataTable value="#{livroBean.livroDataModel}" lazy="true" var="livro" border="0" cellpadding="10" cellspacing="5" 
+						id="livrosCadastrados" paginator="true" rows="5" emptyMessage="Nenhum Livro encontrado" widgetVar="tabelaLivros" >
+					<f:facet name="header">Livros Cadastrados</f:facet>
+					<p:column headerText="Título" sortBy="#{livro.titulo}" filterBy="#{livro.titulo}" filterMatchMode="contains" >
+						<p:outputLabel value="#{livro.titulo}" />
+					</p:column>
+					<p:column headerText="Gênero" sortBy="#{livro.genero}" filterBy="#{livro.genero}" filterMatchMode="startsWith">
+						<f:facet name="filter">
+							<p:selectOneMenu onchange="PF('tabelaLivros').filter()">
+								<f:selectItem itemLabel="Selecione...." itemValue="#{null}" noSelectionOption="true"/>
+								<f:selectItems value="#{livroBean.generos}" />
+							</p:selectOneMenu>
+						</f:facet>
+						<p:outputLabel value="#{livro.genero}" />
+					</p:column>
+					<p:column headerText="ISBN" sortBy="#{livro.isbn}">
+						<p:outputLabel value="#{livro.isbn}" />
+					</p:column>
+					<p:column headerText="Preço" filterBy="#{livro.preco}" filterFunction="#{livroBean.precoEhMenor}">
+						<p:outputLabel value="#{livro.preco}" />
+					</p:column>
+					<p:column headerText="Data Lançamento">
+						<h:outputText value="#{livro.dataLancamento.time}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Remover">
+						<p:commandButton icon="fa fa-trash" title="Excluir" action="#{livroBean.remover(livro)}" process="@this" update="@form"/>
+					</p:column>
+					<p:column headerText="Alterar">
+						<p:commandButton icon="fa fa-edit" title="Editar" action="#{livroBean.carregarLivroParaAlteracao(livro)}" process="@this" update=":formLivro"/>
+					</p:column>
+				</p:dataTable>
+			</h:form>
 		</ui:define>
 		<ui:define name="rodape">Cadastro de Livros	</ui:define>
 	</ui:composition>
