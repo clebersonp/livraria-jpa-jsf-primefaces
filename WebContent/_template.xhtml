@@ -14,8 +14,16 @@
 			<h:graphicImage library="img" name="logo.png" />
 			<br/>
 			<p:outputLabel value="Seja bem - vindo - #{sessionScope['usuarioLogado'].email}" rendered="#{usuarioLogado != null}"/>
+			
+		    <p:growl id="growl" showDetail="true" autoUpdate="true" sticky="true"/>
+		    
 			<h:form rendered="#{usuarioLogado != null}">
-				<p:commandLink value="Logout" action="#{loginBean.deslogar}" process="@this" update="@all" />
+			    <p:menuButton value="Menu">
+			        <p:menuitem value="Autores" action="autor?faces-redirect=true" icon="fa fa-fw fa-edit"/>
+			        <p:menuitem value="Livros" action="livro?faces-redirect=true" icon="fa fa-fw fa-edit"/>
+			        <p:separator />
+			        <p:menuitem value="Logout" action="#{loginBean.deslogar}" icon="fa fa-fw fa-sign-out"/>
+			    </p:menuButton>
 			</h:form>
 
 			<h1><ui:insert name="titulo" /></h1>
