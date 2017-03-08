@@ -14,12 +14,9 @@
 			<h:graphicImage library="img" name="logo.png" />
 			
 			<h:form rendered="#{usuarioLogado != null}">			
-				<p:themeSwitcher id="basic" style="width:165px" value="#{temaBean.tema}">
-	            	<f:selectItem itemLabel="Escolha o Tema" itemValue="" />
-	            	<f:selectItem itemLabel="Aristo" itemValue="aristo" />
-	            	<f:selectItem itemLabel="Omega" itemValue="omega" />
-	            	<f:selectItem itemLabel="Afterdark" itemValue="afterdark" />
-	            	<f:selectItem itemLabel="Vader" itemValue="vader" />
+				<p:themeSwitcher id="basic" style="width:165px; position:absolute; right: 10px" value="#{temaBean.tema}">
+	            	<f:selectItem itemLabel="Escolha o Tema..." itemValue="" />
+	            	<f:selectItems value="#{temaBean.temas}" var="tema" itemLabel="#{tema}" itemValue="#{tema}" />
 	            	<f:ajax />
 	        	</p:themeSwitcher>
 	        </h:form>
@@ -33,6 +30,7 @@
 			    <p:menuButton value="Menu">
 			        <p:menuitem value="Autores" action="autor?faces-redirect=true" icon="fa fa-fw fa-edit"/>
 			        <p:menuitem value="Livros" action="livro?faces-redirect=true" icon="fa fa-fw fa-edit"/>
+			        <p:menuitem value="Vendas" action="vendas?faces-redirect=true" icon="fa fa-fw fa-edit"/>
 			        <p:separator />
 			        <p:menuitem value="Logout" action="#{loginBean.deslogar}" icon="fa fa-fw fa-sign-out"/>
 			    </p:menuButton>
