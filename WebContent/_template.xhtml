@@ -12,6 +12,18 @@
 	
 		<div id="cabecalho">
 			<h:graphicImage library="img" name="logo.png" />
+			
+			<h:form rendered="#{usuarioLogado != null}">			
+				<p:themeSwitcher id="basic" style="width:165px" value="#{temaBean.tema}">
+	            	<f:selectItem itemLabel="Escolha o Tema" itemValue="" />
+	            	<f:selectItem itemLabel="Aristo" itemValue="aristo" />
+	            	<f:selectItem itemLabel="Omega" itemValue="omega" />
+	            	<f:selectItem itemLabel="Afterdark" itemValue="afterdark" />
+	            	<f:selectItem itemLabel="Vader" itemValue="vader" />
+	            	<f:ajax />
+	        	</p:themeSwitcher>
+	        </h:form>
+			
 			<br/>
 			<p:outputLabel value="Seja bem - vindo - #{sessionScope['usuarioLogado'].email}" rendered="#{usuarioLogado != null}"/>
 			
